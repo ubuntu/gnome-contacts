@@ -14,23 +14,9 @@ description: |
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: classic
 
-slots:
-  # for GtkApplication registration
-  gnome-contacts:
-    interface: dbus
-    bus: session
-    name: org.gnome.Contacts
-
 apps:
   gnome-contacts:
     command: gnome-contacts
-    plugs:
-      - network
-      - x11
-      - home
-      - gsettings
-      - unity7
-      - unity8-contacts
     desktop: usr/share/applications/org.gnome.Contacts.desktop
     environment:
       GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
@@ -47,6 +33,11 @@ parts:
     configflags: [--prefix=/snap/gnome-contacts/current/usr, --disable-fatal-warnings]
     organize:
       snap/gnome-contacts/current/usr: usr
+    prepare: |
+      apt install software-properties-common
+      add-apt-repository -y ppa:ubuntu-desktop/gnome-3-24
+      apt update      
+      apt upgrade      
     install: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
       cp data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
