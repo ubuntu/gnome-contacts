@@ -33,11 +33,6 @@ parts:
     configflags: [--prefix=/snap/gnome-contacts/current/usr, --disable-fatal-warnings]
     organize:
       snap/gnome-contacts/current/usr: usr
-    prepare: |
-      apt install software-properties-common
-      add-apt-repository -y ppa:ubuntu-desktop/gnome-3-24
-      apt update      
-      apt upgrade      
     install: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
       cp data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
