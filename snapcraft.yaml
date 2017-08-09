@@ -23,35 +23,8 @@ apps:
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/gnome-contacts
 
 parts:
-  folks:
-    source: https://git.gnome.org/browse/folks
-    source-type: git
-    source-tag: 0.11.4
-    plugin: autotools
-    # workaround the issue described in https://launchpad.net/bugs/1583250
-    configflags: [--prefix=/snap/gnome-contacts/current/usr, --enable-vala, --enable-eds-backend, --disable-telepathy-backend, --disable-ofono-backend, --disable-bluez-backend, --disable-fatal-warnings]
-    organize:
-      snap/gnome-contacts/current/usr: usr
-    build-packages:
-      - gnome-common
-      - autotools-dev
-      - intltool
-      - libglib2.0-dev
-      - libdbus-glib-1-dev
-      - gobject-introspection
-      - libgirepository1.0-dev
-      - libgee-0.8-dev
-      - libxml2-dev
-      - libncurses5-dev
-      - libreadline-dev
-      - libebook1.2-dev
-      - libedataserver1.2-dev
-      - libedataserverui1.2-dev
-      #- libtelepathy-glib-dev
-      - valac
-
   gnome-contacts:
-    after: [folks, desktop-gtk3]
+    after: [desktop-gtk3]
     source: https://git.gnome.org/browse/gnome-contacts
     source-type: git
     source-branch: master
@@ -74,9 +47,9 @@ parts:
       - libebook1.2-dev
       - libedataserver1.2-dev
       - libedataserverui1.2-dev
-      #- libfolks-dev
-      #- libfolks-eds-dev
-      #- libfolks-telepathy-dev
+      - libfolks-dev
+      - libfolks-eds-dev
+      - libfolks-telepathy-dev
       - libgee-0.8-dev
       - libchamplain-0.12-dev
       - libcheese-gtk-dev
