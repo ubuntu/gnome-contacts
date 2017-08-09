@@ -16,7 +16,7 @@ confinement: classic
 
 apps:
   gnome-contacts:
-    command: bin/desktop-launch $SNAP/usr/bin/gnome-calendar
+    command: bin/desktop-launch $SNAP/usr/bin/gnome-contacts
     desktop: usr/share/applications/org.gnome.Contacts.desktop
     environment:
       GSETTINGS_SCHEMA_DIR: $SNAP/usr/share/glib-2.0/schemas
