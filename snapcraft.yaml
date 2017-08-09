@@ -16,21 +16,22 @@ confinement: classic
 
 apps:
   gnome-contacts:
-    command: gnome-contacts
+    command: bin/desktop-launch $SNAP/usr/bin/gnome-calendar
     desktop: usr/share/applications/org.gnome.Contacts.desktop
     environment:
-      GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
+      GSETTINGS_SCHEMA_DIR: $SNAP/usr/share/glib-2.0/schemas
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/gnome-contacts
 
 parts:
   gnome-contacts:
+    after: [desktop-gtk3]
     source: https://git.gnome.org/browse/gnome-contacts
     source-type: git
-    #source-branch: master
-    source-tag: 3.22.1
+    source-branch: master
+    #source-tag: 3.22.1
     plugin: autotools
     # workaround the issue described in https://launchpad.net/bugs/1583250
-    configflags: [--prefix=/snap/gnome-contacts/current/usr, --disable-fatal-warnings]
+    configflags: ['LDFLAGS=-Wl,-Bsymbolic-functions -Wl,-z,relro', --prefix=/snap/gnome-contacts/current/usr, --disable-fatal-warnings]
     organize:
       snap/gnome-contacts/current/usr: usr
     install: |
