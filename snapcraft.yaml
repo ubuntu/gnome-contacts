@@ -107,11 +107,6 @@ parts:
     install: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
       cp data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
-    stage-packages:
-      - evolution-data-server-common
-      - evolution-data-server
-      - folks-common
-      - libfolks-eds25
     build-packages:
       - gnome-common
       - libebook1.2-dev
