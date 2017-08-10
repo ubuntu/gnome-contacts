@@ -101,7 +101,7 @@ parts:
     #source-tag: 3.22.1
     plugin: autotools
     # workaround the issue described in https://launchpad.net/bugs/1583250
-    configflags: ['LDFLAGS=-Wl,-Bsymbolic-functions -Wl,-z,relro', --prefix=/snap/gnome-contacts/current/usr, --disable-fatal-warnings]
+    configflags: ['CFLAGS=-I/usr/include/evolution-data-server -I/usr/include', 'LDFLAGS=-Wl,-Bsymbolic-functions -Wl,-z,relro', --prefix=/snap/gnome-contacts/current/usr, --disable-fatal-warnings]
     organize:
       snap/gnome-contacts/current/usr: usr
     install: |
