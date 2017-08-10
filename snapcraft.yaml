@@ -73,7 +73,7 @@ parts:
     source-tag: 0.11.4
     plugin: autotools
     # workaround the issue described in https://launchpad.net/bugs/1583250
-    configflags: ['CFLAGS=-I/usr/include/evolution-data-server -I/usr/include', --prefix=/snap/gnome-contacts/current/usr, --enable-vala, --enable-eds-backend, --disable-telepathy-backend, --disable-ofono-backend, --disable-bluez-backend, --disable-fatal-warnings]
+    configflags: ['CFLAGS=-I/usr/include/evolution-data-server -I/usr/include', --prefix=/snap/gnome-contacts/current/usr, --enable-vala, --enable-eds-backend, --disable-telepathy-backend, --disable-ofono-backend, --disable-bluez-backend, --disable-modular-tests, --disable-fatal-warnings]
     organize:
       snap/gnome-contacts/current/usr: usr
     build-packages:
