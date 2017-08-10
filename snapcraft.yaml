@@ -16,7 +16,7 @@ confinement: classic
 
 apps:
   gnome-contacts:
-    command: bin/desktop-launch $SNAP/usr/bin/gnome-contacts
+    command: bin/classic-launch classic ${SNAP}/usr/bin/gnome-contacts
     desktop: usr/share/applications/org.gnome.Contacts.desktop
     environment:
       GSETTINGS_SCHEMA_DIR: $SNAP/usr/share/glib-2.0/schemas
@@ -62,3 +62,8 @@ parts:
       - libgtk-3-dev
       - libtelepathy-glib-dev
       - valac
+  classic-launch:
+    plugin: dump
+    source: .
+    organize:
+      classic-launch: bin/classic-launch
