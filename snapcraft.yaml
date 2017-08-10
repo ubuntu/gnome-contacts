@@ -22,8 +22,52 @@ apps:
       GSETTINGS_SCHEMA_DIR: $SNAP/usr/share/glib-2.0/schemas
 
 parts:
-  folks:
+  evolution-data-server:
     after: [desktop-gtk3]
+    source: https://git.gnome.org/browse/evolution-data-server
+    source-type: git
+    source-tag: EVOLUTION_DATA_SERVER_3_24_4
+    plugin: cmake
+    # workaround the issue described in https://launchpad.net/bugs/1583250
+    configflags: [-DCMAKE_INSTALL_PREFIX=/snap/gnome-contacts/current/usr, -DENABLE_GOA=ON, -DENABLE_UOA=OFF, -DENABLE_WEATHER=OFF, -DENABLE_VALA_BINDINGS=ON, -DENABLE_INTROSPECTION=ON]
+    organize:
+      snap/gnome-contacts/current/usr: usr
+    build-packages:
+      - libtool
+      - intltool
+      - libdb-dev
+      - libglib2.0-dev
+      - libglib2.0-doc
+      - libgdata-dev
+      - libgirepository1.0-dev
+      - libsecret-1-dev
+      - libgcr-3-dev
+      - libgoa-1.0-dev
+      - libgtk-3-dev
+      - libical-dev
+      - libicu-dev
+      - libjson-glib-dev
+      - libkrb5-dev
+      - libldap2-dev
+      - liboauth-dev
+      - librest-dev
+      - libnss3-dev
+      - libnspr4-dev
+      - libsoup2.4-dev
+      - libsqlite3-dev
+      - libwebkit2gtk-4.0-dev
+      - libxml2-dev
+      - gtk-doc-tools
+      - gobject-introspection
+      - gperf
+      - gnome-pkg-tools
+      - pkg-config
+      - valac
+      - gnome-common
+      - db-util
+      - dbus
+  folks:
+    after: [evolution-data-server]
     source: https://git.gnome.org/browse/folks
     source-type: git
     source-tag: 0.11.4
