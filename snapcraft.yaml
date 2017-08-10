@@ -20,11 +20,36 @@ apps:
     desktop: usr/share/applications/org.gnome.Contacts.desktop
     environment:
       GSETTINGS_SCHEMA_DIR: $SNAP/usr/share/glib-2.0/schemas
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/gnome-contacts
 
 parts:
-  gnome-contacts:
+  folks:
     after: [desktop-gtk3]
+    source: https://git.gnome.org/browse/folks
+    source-type: git
+    source-tag: 0.11.4
+    plugin: autotools
+    # workaround the issue described in https://launchpad.net/bugs/1583250
+    configflags: [--prefix=/snap/gnome-contacts/current/usr, --enable-vala, --enable-eds-backend, --disable-telepathy-backend, --disable-ofono-backend, --disable-bluez-backend, --disable-fatal-warnings]
+    organize:
+      snap/gnome-contacts/current/usr: usr
+    build-packages:
+      - gnome-common
+      - autotools-dev
+      - intltool
+      - libglib2.0-dev
+      - libdbus-glib-1-dev
+      - gobject-introspection
+      - libgirepository1.0-dev
+      - libgee-0.8-dev
+      - libxml2-dev
+      - libncurses5-dev
+      - libreadline-dev
+      - libebook1.2-dev
+      - libedataserver1.2-dev
+      - libedataserverui1.2-dev
+      - valac
+  gnome-contacts:
+    after: [folks]
     source: https://git.gnome.org/browse/gnome-contacts
     source-type: git
     source-branch: master
