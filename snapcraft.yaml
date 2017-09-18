@@ -1,5 +1,5 @@
 name: gnome-contacts
-version: 3.22.1
+version: 3.26.0
 summary: A contacts manager for GNOME
 description: |
 
@@ -26,7 +26,7 @@ parts:
     after: [desktop-gtk3]
     source: https://git.gnome.org/browse/evolution-data-server
     source-type: git
-    source-tag: EVOLUTION_DATA_SERVER_3_24_4
+    source-tag: EVOLUTION_DATA_SERVER_3_26_0
     plugin: cmake
     # workaround the issue described in https://launchpad.net/bugs/1583250
     configflags: [-DCMAKE_INSTALL_PREFIX=/snap/gnome-contacts/current/usr, -DENABLE_GOA=ON, -DENABLE_UOA=OFF, -DENABLE_WEATHER=OFF, -DENABLE_VALA_BINDINGS=ON, -DENABLE_INTROSPECTION=ON]
@@ -97,8 +97,8 @@ parts:
     after: [folks]
     source: https://git.gnome.org/browse/gnome-contacts
     source-type: git
-    source-branch: master
-    #source-tag: 3.22.1
+    #source-branch: master
+    source-tag: "3.26"
     plugin: autotools
     # workaround the issue described in https://launchpad.net/bugs/1583250
     configflags: ['CFLAGS=-I/usr/include/evolution-data-server -I/usr/include', 'LDFLAGS=-Wl,-Bsymbolic-functions -Wl,-z,relro', --prefix=/snap/gnome-contacts/current/usr, --disable-fatal-warnings]
