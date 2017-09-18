@@ -11,7 +11,7 @@ description: |
   Contacts will also integrate with online address books and automatically
   link contacts from different online sources.
 
-grade: devel # must be 'stable' to release into candidate/stable channels
+grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: classic
 
 apps:
