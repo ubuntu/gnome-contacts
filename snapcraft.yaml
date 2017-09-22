@@ -97,16 +97,14 @@ parts:
     after: [folks]
     source: https://git.gnome.org/browse/gnome-contacts
     source-type: git
-    #source-branch: master
     source-tag: "3.26"
-    plugin: autotools
-    # workaround the issue described in https://launchpad.net/bugs/1583250
-    configflags: ['CFLAGS=-I/usr/include/evolution-data-server -I/usr/include', 'LDFLAGS=-Wl,-Bsymbolic-functions -Wl,-z,relro', --prefix=/snap/gnome-contacts/current/usr, --disable-fatal-warnings]
+    plugin: x_contactsmeson
+    meson-parameters: [--prefix=/usr]
     organize:
       snap/gnome-contacts/current/usr: usr
     install: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
-      cp data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
+      cp snapbuild/data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
     build-packages:
       - gnome-common
       - libebook1.2-dev
