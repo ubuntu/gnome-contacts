@@ -1,5 +1,5 @@
 name: gnome-contacts
-version: 3.26.0
+version: 3.26.1
 summary: A contacts manager for GNOME
 description: |
 
@@ -14,12 +14,23 @@ description: |
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
 
-
 plugs:
   gnome-3-26-1604:
     interface: content
     target: $SNAP/gnome-platform
-    default-provider: gnome-3-26-1604:gnome-3-26-1604
+    default-provider: gnome-3-26-1604
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
 
 slots:
   # for GtkApplication registration
@@ -44,16 +55,18 @@ apps:
       - opengl
       - unity7
       - wayland
-      - gnome-online-accounts-service
+      - accounts-service
       - desktop-contacts-service
+      - contacts-service
+
 parts:
   evolution-data-server:
     after: [desktop-gnome-platform]
+    build-attributes: [no-system-libraries]
     source: https://git.gnome.org/browse/evolution-data-server
     source-type: git
-    source-tag: EVOLUTION_DATA_SERVER_3_26_0
+    source-tag: 3.28.2
     plugin: cmake
-    # workaround the issue described in https://launchpad.net/bugs/1583250
     configflags: [-DCMAKE_INSTALL_PREFIX=/snap/gnome-contacts/current/usr, -DENABLE_GOA=ON, -DENABLE_UOA=OFF, -DENABLE_WEATHER=OFF, -DENABLE_VALA_BINDINGS=ON, -DENABLE_INTROSPECTION=ON]
     organize:
       snap/gnome-contacts/current/usr: usr
@@ -82,27 +95,23 @@ parts:
       - libsqlite3-dev
       - libwebkit2gtk-4.0-dev
       - libxml2-dev
-      - gtk-doc-tools
       - gobject-introspection
       - gperf
-      - gnome-pkg-tools
       - pkg-config
       - valac
-      - gnome-common
       - db-util
       - dbus
   folks:
     after: [evolution-data-server]
+    build-attributes: [no-system-libraries]
     source: https://git.gnome.org/browse/folks
     source-type: git
     source-tag: 0.11.4
     plugin: autotools
-    # workaround the issue described in https://launchpad.net/bugs/1583250
     configflags: ['CFLAGS=-I/usr/include/evolution-data-server -I/usr/include', --prefix=/snap/gnome-contacts/current/usr, --enable-vala, --enable-eds-backend, --disable-telepathy-backend, --disable-ofono-backend, --disable-bluez-backend, --disable-modular-tests, --disable-fatal-warnings]
     organize:
       snap/gnome-contacts/current/usr: usr
     build-packages:
-      - gnome-common
       - autotools-dev
       - intltool
       - libglib2.0-dev
@@ -120,18 +129,21 @@ parts:
       - valac
   gnome-contacts:
     after: [folks]
-    source: https://git.gnome.org/browse/gnome-contacts
+    build-attributes: [no-system-libraries]
+    source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
-    source-tag: "3.26"
+    source-tag: 3.26.1
     plugin: x_contactsmeson
     meson-parameters: [--prefix=/usr]
     organize:
       snap/gnome-contacts/current/usr: usr
+    prepare:
+      sed -i.bak -e 's|Icon=gnome-contacts$|Icon=${SNAP}/meta/gui/gnome-contacts.png|g' data/org.gnome.Contacts.desktop.in
     install: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
+      cp ../src/data/icons/hicolor/512x512/apps/gnome-contacts.png $SNAPCRAFT_PART_INSTALL/meta/gui/
       cp snapbuild/data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
     build-packages:
-      - gnome-common
       - libebook1.2-dev
       - libedataserver1.2-dev
       - libedataserverui1.2-dev
