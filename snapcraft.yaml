@@ -95,10 +95,12 @@ parts:
       - libsqlite3-dev
       - libwebkit2gtk-4.0-dev
       - libxml2-dev
+      - gtk-doc-tools
       - gobject-introspection
       - gperf
       - pkg-config
       - valac
+      - gnome-common
       - db-util
       - dbus
   folks:
@@ -144,6 +146,7 @@ parts:
       cp ../src/data/icons/hicolor/512x512/apps/gnome-contacts.png $SNAPCRAFT_PART_INSTALL/meta/gui/
       cp snapbuild/data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
     build-packages:
+      - gnome-common
       - libebook1.2-dev
       - libedataserver1.2-dev
       - libedataserverui1.2-dev
