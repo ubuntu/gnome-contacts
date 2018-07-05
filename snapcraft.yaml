@@ -165,3 +165,5 @@ parts:
       - libgtk-3-dev
       - libtelepathy-glib-dev
       - valac
+    stage-packages:
+      - libchamplain-0.12-0
