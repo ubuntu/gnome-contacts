@@ -166,3 +166,5 @@ parts:
       - valac
     stage-packages:
       - libchamplain-0.12-0
+      - libgee-0.8-2
+      - libgoa-1.0-0b
