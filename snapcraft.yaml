@@ -130,7 +130,7 @@ parts:
       - valac
   gnome-contacts:
     after: [folks]
-    build-attributes: [no-system-libraries]
+    #build-attributes: [no-system-libraries]
     source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
     source-tag: 3.26.1
