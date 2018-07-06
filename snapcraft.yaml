@@ -56,7 +56,6 @@ apps:
       - unity7
       - wayland
       - accounts-service
-      - desktop-contacts-service
       - contacts-service
 
 parts:
