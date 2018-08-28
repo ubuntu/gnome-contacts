@@ -1,5 +1,5 @@
 name: gnome-contacts
-version: 3.26.1
+version: 3.29.92
 summary: A contacts manager for GNOME
 description: |
 
@@ -74,7 +74,6 @@ parts:
       - intltool
       - libdb-dev
       - libglib2.0-dev
-      - libglib2.0-doc
       - libgdata-dev
       - libgirepository1.0-dev
       - libsecret-1-dev
@@ -94,12 +93,10 @@ parts:
       - libsqlite3-dev
       - libwebkit2gtk-4.0-dev
       - libxml2-dev
-      - gtk-doc-tools
       - gobject-introspection
       - gperf
       - pkg-config
       - valac
-      - gnome-common
       - db-util
       - dbus
   folks:
@@ -130,28 +127,26 @@ parts:
       - valac
   gnome-contacts:
     after: [folks]
-    #build-attributes: [no-system-libraries]
+    build-attributes: [no-system-libraries]
     source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
-    source-tag: 3.26.1
+    source-tag: 3.29.92
     plugin: x_contactsmeson
-    meson-parameters: [--prefix=/usr]
+    meson-parameters: [--prefix=/usr, -Dmanpage=false, -Dtelepathy=false]
     organize:
       snap/gnome-contacts/current/usr: usr
-    prepare:
-      sed -i.bak -e 's|Icon=gnome-contacts$|Icon=${SNAP}/meta/gui/gnome-contacts.png|g' data/org.gnome.Contacts.desktop.in
-    install: |
+    override-build: |
+      sed -i.bak -e 's|Icon=org.gnome.Contacts$|Icon=${SNAP}/meta/gui/org.gnome.Contacts.png|g' data/org.gnome.Contacts.desktop.in
+      snapcraftctl build
       mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
-      cp ../src/data/icons/hicolor/512x512/apps/gnome-contacts.png $SNAPCRAFT_PART_INSTALL/meta/gui/
+      cp ../src/data/icons/hicolor/512x512/apps/org.gnome.Contacts.png $SNAPCRAFT_PART_INSTALL/meta/gui/
       cp snapbuild/data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
     build-packages:
-      - gnome-common
       - libebook1.2-dev
       - libedataserver1.2-dev
       - libedataserverui1.2-dev
       - libfolks-dev
       - libfolks-eds-dev
-      - libfolks-telepathy-dev
       - libgee-0.8-dev
       - libchamplain-0.12-dev
       - libcheese-gtk-dev
@@ -162,9 +157,14 @@ parts:
       - libgoa-1.0-dev
       - libgirepository1.0-dev
       - libgtk-3-dev
-      - libtelepathy-glib-dev
       - valac
     stage-packages:
       - libchamplain-0.12-0
+      - libgdata22
       - libgee-0.8-2
       - libgoa-1.0-0b
+      - libcheese8
+      - libcheese-gtk25
+      - libgpm2
+      - libical2
+      - gstreamer1.0-plugins-good
