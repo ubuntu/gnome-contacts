@@ -168,3 +168,35 @@ parts:
       - libgpm2
       - libical2
       - gstreamer1.0-plugins-good
+    prime:
+      - usr/lib/*/*cheese*.so.*
+      - usr/lib/*/*gdata*.so.*
+      - usr/lib/*/*ical*.so.*
+      - usr/lib/*/*gee*.so.*
+      - usr/lib/*/*goa*.so.*
+      - usr/lib/*/*gpm*.so.*
+      - usr/lib/*/*nss*.so
+      - usr/lib/*/libsmime3.so
+      - usr/lib/*/libssl3.so
+      - usr/lib/*/libnspr4.so
+      - usr/lib/*/liboauth.so.*
+      - usr/lib/*/libpl*.so
+      - usr/lib/*/*curl*.so.*
+      - usr/lib/*/*rtmp.so.*
+      - usr/lib/*/liblber-2.4.so.*
+      - usr/lib/*/libldap_r-2.4.so.*
+      - usr/lib/*/libsasl2.so.*
+      - usr/lib/*/libgssapi.so.*
+      - usr/lib/*/libheimntlm.so.*
+      - usr/lib/*/libkrb5.so.*
+      - usr/lib/*/libasn1.so.*
+      - usr/lib/*/libhcrypto.so.*
+      - usr/lib/*/libroken.so.*
+      - usr/lib/*/libwind.so.*
+      - usr/lib/*/libheimbase.so.*
+      - usr/lib/*/libhx509.so.*
+      - usr/lib/*.so.*
+      - usr/lib/evolution-data-server/*
+      - usr/lib/folks/*
+      - usr/share/*
+      - usr/bin/*
