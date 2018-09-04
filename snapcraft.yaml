@@ -1,5 +1,5 @@
 name: gnome-contacts
-version: 3.29.92
+version: 3.30
 summary: A contacts manager for GNOME
 description: |
 
@@ -130,7 +130,7 @@ parts:
     build-attributes: [no-system-libraries]
     source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
-    source-tag: 3.29.92
+    source-tag: 3.30
     plugin: x_contactsmeson
     meson-parameters: [--prefix=/usr, -Dmanpage=false, -Dtelepathy=false]
     organize:
