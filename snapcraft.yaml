@@ -130,7 +130,7 @@ parts:
     build-attributes: [no-system-libraries]
     source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
-    source-tag: 3.30
+    source-tag: "3.30"
     plugin: x_contactsmeson
     meson-parameters: [--prefix=/usr, -Dmanpage=false, -Dtelepathy=false]
     organize:
