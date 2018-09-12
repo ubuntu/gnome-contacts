@@ -57,6 +57,7 @@ apps:
       - wayland
       - accounts-service
       - contacts-service
+      - camera
 
 parts:
   evolution-data-server:
