@@ -58,6 +58,7 @@ apps:
       - accounts-service
       - contacts-service
       - camera
+      - pulseaudio
 
 parts:
   evolution-data-server:
