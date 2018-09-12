@@ -136,12 +136,6 @@ parts:
     meson-parameters: [--prefix=/usr, -Dmanpage=false, -Dtelepathy=false]
     organize:
       snap/gnome-contacts/current/usr: usr
-    override-build: |
-      sed -i.bak -e 's|Icon=org.gnome.Contacts$|Icon=${SNAP}/meta/gui/org.gnome.Contacts.png|g' data/org.gnome.Contacts.desktop.in
-      snapcraftctl build
-      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
-      cp ../src/data/icons/hicolor/512x512/apps/org.gnome.Contacts.png $SNAPCRAFT_PART_INSTALL/meta/gui/
-      cp snapbuild/data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
     build-packages:
       - libebook1.2-dev
       - libedataserver1.2-dev
