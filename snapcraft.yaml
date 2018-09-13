@@ -65,9 +65,9 @@ parts:
   evolution-data-server:
     after: [desktop-gnome-platform]
     build-attributes: [no-system-libraries]
-    source: https://git.gnome.org/browse/evolution-data-server
+    source: https://gitlab.gnome.org/GNOME/evolution-data-server.git
     source-type: git
-    source-tag: 3.28.2
+    source-tag: 3.30.0
     plugin: cmake
     configflags: [-DCMAKE_INSTALL_PREFIX=/snap/gnome-contacts/current/usr, -DENABLE_GOA=ON, -DENABLE_UOA=OFF, -DENABLE_WEATHER=OFF, -DENABLE_VALA_BINDINGS=ON, -DENABLE_INTROSPECTION=ON]
     organize:
@@ -105,7 +105,7 @@ parts:
   folks:
     after: [evolution-data-server]
     build-attributes: [no-system-libraries]
-    source: https://git.gnome.org/browse/folks
+    source: https://gitlab.gnome.org/GNOME/folks.git
     source-type: git
     source-tag: 0.11.4
     plugin: autotools
