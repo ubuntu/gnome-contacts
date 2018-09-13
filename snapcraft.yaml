@@ -57,8 +57,9 @@ apps:
       - wayland
       - accounts-service
       - contacts-service
-      - camera
-      - pulseaudio
+      # Not needed without cheese
+      #- camera
+      #- pulseaudio
 
 parts:
   evolution-data-server:
@@ -134,7 +135,12 @@ parts:
     source-type: git
     source-tag: "3.30"
     plugin: x_contactsmeson
-    meson-parameters: [--prefix=/usr, -Dmanpage=false, -Dtelepathy=false]
+    meson-parameters: 
+      - --prefix=/usr
+      - -Ddocs=false
+      - -Dmanpage=false
+      - -Dtelepathy=false
+      - -Dcheese=false
     organize:
       snap/gnome-contacts/current/usr: usr
     build-packages:
@@ -145,7 +151,7 @@ parts:
       - libfolks-eds-dev
       - libgee-0.8-dev
       - libchamplain-0.12-dev
-      - libcheese-gtk-dev
+      #- libcheese-gtk-dev
       - libclutter-gtk-1.0-dev
       - libgeocode-glib-dev
       - libglib2.0-dev
@@ -159,13 +165,13 @@ parts:
       - libgdata22
       - libgee-0.8-2
       - libgoa-1.0-0b
-      - libcheese8
-      - libcheese-gtk25
+      #- libcheese8
+      #- libcheese-gtk25
       - libgpm2
       - libical2
       - gstreamer1.0-plugins-good
     prime:
-      - usr/lib/*/*cheese*.so.*
+      #- usr/lib/*/*cheese*.so.*
       - usr/lib/*/*gdata*.so.*
       - usr/lib/*/*ical*.so.*
       - usr/lib/*/*gee*.so.*
