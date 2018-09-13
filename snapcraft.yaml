@@ -69,7 +69,7 @@ parts:
     source-type: git
     source-tag: 3.30.0
     plugin: cmake
-    configflags: [-DCMAKE_INSTALL_PREFIX=/snap/gnome-contacts/current/usr, -DENABLE_GOA=ON, -DENABLE_UOA=OFF, -DENABLE_WEATHER=OFF, -DENABLE_VALA_BINDINGS=ON, -DENABLE_INTROSPECTION=ON]
+    configflags: [-DCMAKE_INSTALL_PREFIX=/snap/gnome-contacts/current/usr, -DENABLE_GOA=ON, -DENABLE_UOA=OFF, -DENABLE_WEATHER=OFF, -DENABLE_CANBERRA=OFF, -DENABLE_VALA_BINDINGS=ON, -DENABLE_INTROSPECTION=ON]
     organize:
       snap/gnome-contacts/current/usr: usr
     build-packages:
