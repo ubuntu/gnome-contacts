@@ -1,5 +1,5 @@
 name: gnome-contacts
-version: 3.30.0
+adopt-info: gnome-contacts
 summary: A contacts manager for GNOME
 description: |
 
@@ -13,12 +13,22 @@ description: |
 
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
+base: core18
+
+passthrough:
+  layout:
+    /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/43/backends:
+      symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/43/backends
+    /usr/lib/evolution:
+      symlink: $SNAP/usr/lib/evolution
+    /usr/lib/evolution-data-server:
+      symlink: $SNAP/usr/lib/evolution-data-server
 
 plugs:
-  gnome-3-26-1604:
+  gnome-3-28-1804:
     interface: content
     target: $SNAP/gnome-platform
-    default-provider: gnome-3-26-1604
+    default-provider: gnome-3-28-1804
   gtk-3-themes:
     interface: content
     target: $SNAP/data-dir/themes
@@ -62,79 +72,23 @@ apps:
       #- pulseaudio
 
 parts:
-  evolution-data-server:
-    after: [desktop-gnome-platform]
-    build-attributes: [no-system-libraries]
-    source: https://gitlab.gnome.org/GNOME/evolution-data-server.git
-    source-type: git
-    source-tag: 3.30.0
-    plugin: cmake
-    configflags: [-DCMAKE_INSTALL_PREFIX=/snap/gnome-contacts/current/usr, -DENABLE_GOA=ON, -DENABLE_UOA=OFF, -DENABLE_WEATHER=OFF, -DENABLE_CANBERRA=OFF, -DENABLE_VALA_BINDINGS=ON, -DENABLE_INTROSPECTION=ON]
-    organize:
-      snap/gnome-contacts/current/usr: usr
+  desktop-gnome-platform:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: gtk
+    plugin: make
+    make-parameters: ["FLAVOR=gtk3"]
     build-packages:
-      - libtool
-      - intltool
-      - libdb-dev
-      - libglib2.0-dev
-      - libgdata-dev
-      - libgirepository1.0-dev
-      - libsecret-1-dev
-      - libgcr-3-dev
-      - libgoa-1.0-dev
+      - build-essential
       - libgtk-3-dev
-      - libical-dev
-      - libicu-dev
-      - libjson-glib-dev
-      - libkrb5-dev
-      - libldap2-dev
-      - liboauth-dev
-      - librest-dev
-      - libnss3-dev
-      - libnspr4-dev
-      - libsoup2.4-dev
-      - libsqlite3-dev
-      - libwebkit2gtk-4.0-dev
-      - libxml2-dev
-      - gobject-introspection
-      - gperf
-      - pkg-config
-      - valac
-      - db-util
-      - dbus
-  folks:
-    after: [evolution-data-server]
-    build-attributes: [no-system-libraries]
-    source: https://gitlab.gnome.org/GNOME/folks.git
-    source-type: git
-    source-tag: 0.11.4
-    plugin: autotools
-    configflags: ['CFLAGS=-I/usr/include/evolution-data-server -I/usr/include', --prefix=/snap/gnome-contacts/current/usr, --enable-vala, --enable-eds-backend, --disable-telepathy-backend, --disable-ofono-backend, --disable-bluez-backend, --disable-modular-tests, --disable-fatal-warnings]
-    organize:
-      snap/gnome-contacts/current/usr: usr
-    build-packages:
-      - autotools-dev
-      - intltool
-      - libglib2.0-dev
-      - libdbus-glib-1-dev
-      - gobject-introspection
-      - libgirepository1.0-dev
-      - libgee-0.8-dev
-      - libxml2-dev
-      - libncurses5-dev
-      - libreadline-dev
-      - libebook1.2-dev
-      - libebook-contacts1.2-dev
-      - libedataserver1.2-dev
-      - libedataserverui1.2-dev
-      - valac
+    override-build: |
+      snapcraftctl build
+      mkdir -pv $SNAPCRAFT_PART_INSTALL/gnome-platform
   gnome-contacts:
-    after: [folks]
-    build-attributes: [no-system-libraries]
+    after: [desktop-gnome-platform]
     source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
-    source-tag: "3.30"
-    plugin: x_contactsmeson
+    source-branch: gnome-3-30
+    plugin: meson
     meson-parameters: 
       - --prefix=/usr
       - -Ddocs=false
@@ -143,6 +97,9 @@ parts:
       - -Dcheese=false
     organize:
       snap/gnome-contacts/current/usr: usr
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version $(git describe --tags --abbrev=10)
     build-packages:
       - libebook1.2-dev
       - libedataserver1.2-dev
@@ -170,6 +127,22 @@ parts:
       - libgpm2
       - libical2
       - gstreamer1.0-plugins-good
+      - libfolks25
+      - libfolks-eds25
+      - evolution-data-server
+      - libedataserver-1.2-23
+      - libedataserverui-1.2-2
+      - libebook-1.2-19
+      - libcamel-1.2-61
+      - libedata-book-1.2-25
+      - libphonenumber7
+      - libebackend-1.2-10
+      - libprotobuf10
+      - libboost-system1.65.1
+      - libboost-thread1.65.1
+      - libstdc++6
+      - liblz4-1
+
     prime:
       #- usr/lib/*/*cheese*.so.*
       - usr/lib/*/*gdata*.so.*
@@ -197,8 +170,22 @@ parts:
       - usr/lib/*/libwind.so.*
       - usr/lib/*/libheimbase.so.*
       - usr/lib/*/libhx509.so.*
+      - usr/lib/*/libfolks.so.*
+      - usr/lib/*/libfolks-eds*.so.*
+      - usr/lib/*/libedataserver*.so.*
+      - usr/lib/*/libebook-*.so.*
+      - usr/lib/*/libcamel-*.so.*
+      - usr/lib/*/libedata-book-*.so.*
+      - usr/lib/*/libphonenumber.so.*
+      - usr/lib/*/libebackend-*.so.*
+      - usr/lib/*/libprotobuf.so.*
+      - usr/lib/*/libboost_system.so.*
+      - usr/lib/*/libboost_thread.so.*
+      - usr/lib/*/libstdc++.so.*
+      - usr/lib/*/liblz4.so.*
       - usr/lib/*.so.*
+      - usr/lib/evolution/*
       - usr/lib/evolution-data-server/*
-      - usr/lib/folks/*
+      - usr/lib/*/folks/*
       - usr/share/*
       - usr/bin/*
