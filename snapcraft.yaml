@@ -101,6 +101,7 @@ parts:
       snapcraftctl pull
       snapcraftctl set-version $(git describe --tags --abbrev=10)
     build-packages:
+      - gettext
       - libebook1.2-dev
       - libedataserver1.2-dev
       - libedataserverui1.2-dev
