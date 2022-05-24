@@ -25,15 +25,16 @@ apps:
     command: usr/bin/gnome-contacts
     extensions: [gnome-3-38]
     desktop: usr/share/applications/org.gnome.Contacts.desktop
+    common-id: org.gnome.Contacts.desktop
     plugs:
       - browser-support
+      #- camera
       - home
       - network
       - accounts-service
       - contacts-service
-      # Not needed without cheese
-      #- audio-playback
-      #- camera
+    #environment:
+    #  DISABLE_WAYLAND: 'true'
 
 parts:
   gnome-contacts:
@@ -54,17 +55,23 @@ parts:
     override-pull: |
       snapcraftctl pull
       snapcraftctl set-version $(git describe --tags --abbrev=10)
+    override-build: |
+      sed -i.bak -e 's|=org.gnome.Contacts$|=${SNAP}/meta/gui/org.gnome.Contacts.svg|g' $SNAPCRAFT_PART_SRC/data/org.gnome.Contacts.desktop.in.in
+      snapcraftctl build
+      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
+      cp $SNAPCRAFT_PART_SRC/data/icons/hicolor/scalable/apps/org.gnome.Contacts.svg $SNAPCRAFT_PART_INSTALL/meta/gui/
+      cp data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
     build-packages:
-      - gettext
       - libedataserverui1.2-dev
       - libfolks-eds-dev
       - libchamplain-0.12-dev
       - libgoa-1.0-dev
       - libhandy-0.0-dev
-      #- libcheese-gtk-dev
+      - libcheese-gtk-dev
     stage-packages:
       - libassuan0
       - libchamplain-0.12-0
+      #- libclutter-gst-3.0-0
       - libgdata22
       - libgee-0.8-2
       - libgoa-1.0-0b
@@ -95,8 +102,9 @@ parts:
       - liblz4-1
 
     prime:
-      #- usr/lib/*/*cheese*.so.*
       - usr/lib/*/*assuan*.so.*
+      #- usr/lib/*/*cheese*.so.*
+      #- usr/lib/*/*clutter-gst*.so.*
       - usr/lib/*/*gdata*.so.*
       - usr/lib/*/*handy*.so.*
       - usr/lib/*/*ical*.so.*
