@@ -1,46 +1,17 @@
 name: gnome-contacts
 adopt-info: gnome-contacts
-summary: A contacts manager for GNOME
-description: |
-
-  Contacts keeps and organize your contacts information. You can create,
-  edit, delete and link together pieces of information about your contacts.
-  Contacts aggregates the details from all your sources providing a
-  centralized place for managing your contacts.
-
-  Contacts will also integrate with online address books and automatically
-  link contacts from different online sources.
-
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
-base: core18
+base: core20
 
 passthrough:
   layout:
-    /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/43/backends:
-      symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/43/backends
+    /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/45/backends:
+      symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/45/backends
     /usr/lib/evolution:
       symlink: $SNAP/usr/lib/evolution
     /usr/lib/evolution-data-server:
       symlink: $SNAP/usr/lib/evolution-data-server
-
-plugs:
-  gnome-3-28-1804:
-    interface: content
-    target: $SNAP/gnome-platform
-    default-provider: gnome-3-28-1804
-  gtk-3-themes:
-    interface: content
-    target: $SNAP/data-dir/themes
-    default-provider: gtk-common-themes
-  icon-themes:
-    interface: content
-    target: $SNAP/data-dir/icons
-    default-provider: gtk-common-themes
-  sound-themes:
-    interface: content
-    target: $SNAP/data-dir/sounds
-    default-provider: gtk-common-themes
 
 slots:
   # for GtkApplication registration
@@ -51,50 +22,33 @@ slots:
 
 apps:
   gnome-contacts:
-    command: desktop-launch gnome-contacts
+    command: usr/bin/gnome-contacts
+    extensions: [gnome-3-38]
     desktop: usr/share/applications/org.gnome.Contacts.desktop
-    environment:
-      GSETTINGS_SCHEMA_DIR: $SNAP/usr/share/glib-2.0/schemas
     plugs:
       - browser-support
-      - desktop
-      - desktop-legacy
-      - gsettings
       - home
       - network
-      - opengl
-      - unity7
-      - wayland
       - accounts-service
       - contacts-service
       # Not needed without cheese
+      #- audio-playback
       #- camera
-      #- pulseaudio
 
 parts:
-  desktop-gnome-platform:
-    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-    source-subdir: gtk
-    plugin: make
-    make-parameters: ["FLAVOR=gtk3"]
-    build-packages:
-      - build-essential
-      - libgtk-3-dev
-    override-build: |
-      snapcraftctl build
-      mkdir -pv $SNAPCRAFT_PART_INSTALL/gnome-platform
   gnome-contacts:
-    after: [desktop-gnome-platform]
     source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
-    source-branch: gnome-3-30
+    source-branch: gnome-3-36
     plugin: meson
-    meson-parameters: 
+    meson-parameters:
       - --prefix=/usr
+      - -Dcheese=false
       - -Ddocs=false
       - -Dmanpage=false
+      - -Dprofile=default
       - -Dtelepathy=false
-      - -Dcheese=false
+    parse-info: [usr/share/metainfo/org.gnome.Contacts.appdata.xml]
     organize:
       snap/gnome-contacts/current/usr: usr
     override-pull: |
@@ -102,55 +56,55 @@ parts:
       snapcraftctl set-version $(git describe --tags --abbrev=10)
     build-packages:
       - gettext
-      - libebook1.2-dev
-      - libedataserver1.2-dev
       - libedataserverui1.2-dev
-      - libfolks-dev
       - libfolks-eds-dev
-      - libgee-0.8-dev
       - libchamplain-0.12-dev
-      #- libcheese-gtk-dev
-      - libclutter-gtk-1.0-dev
-      - libgeocode-glib-dev
-      - libglib2.0-dev
-      - libgnome-desktop-3-dev
       - libgoa-1.0-dev
-      - libgirepository1.0-dev
-      - libgtk-3-dev
-      - valac
+      - libhandy-0.0-dev
+      #- libcheese-gtk-dev
     stage-packages:
+      - libassuan0
       - libchamplain-0.12-0
       - libgdata22
       - libgee-0.8-2
       - libgoa-1.0-0b
       #- libcheese8
       #- libcheese-gtk25
+      - libgeocode-glib0
       - libgpm2
-      - libical2
+      - libgweather-3-16
+      - libhandy-0.0-0
+      - libical3
       - gstreamer1.0-plugins-good
       - libfolks25
       - libfolks-eds25
       - evolution-data-server
-      - libedataserver-1.2-23
+      - libecal-2.0-1
+      - libedata-cal-2.0-1
+      - libedataserver-1.2-24
       - libedataserverui-1.2-2
-      - libebook-1.2-19
-      - libcamel-1.2-61
-      - libedata-book-1.2-25
+      - libebook-1.2-20
+      - libcamel-1.2-62
+      - libedata-book-1.2-26
       - libphonenumber7
       - libebackend-1.2-10
-      - libprotobuf10
-      - libboost-system1.65.1
-      - libboost-thread1.65.1
+      - libprotobuf17
+      - libboost-system1.67.0
+      - libboost-thread1.67.0
       - libstdc++6
       - liblz4-1
 
     prime:
       #- usr/lib/*/*cheese*.so.*
+      - usr/lib/*/*assuan*.so.*
       - usr/lib/*/*gdata*.so.*
+      - usr/lib/*/*handy*.so.*
       - usr/lib/*/*ical*.so.*
       - usr/lib/*/*gee*.so.*
+      - usr/lib/*/*geocode-glib*.so.*
       - usr/lib/*/*goa*.so.*
       - usr/lib/*/*gpm*.so.*
+      - usr/lib/*/*gweather*.so.*
       - usr/lib/*/*nss*.so
       - usr/lib/*/libsmime3.so
       - usr/lib/*/libssl3.so
@@ -175,8 +129,9 @@ parts:
       - usr/lib/*/libfolks-eds*.so.*
       - usr/lib/*/libedataserver*.so.*
       - usr/lib/*/libebook-*.so.*
+      - usr/lib/*/libecal-*.so.*
       - usr/lib/*/libcamel-*.so.*
-      - usr/lib/*/libedata-book-*.so.*
+      - usr/lib/*/libedata-*.so.*
       - usr/lib/*/libphonenumber.so.*
       - usr/lib/*/libebackend-*.so.*
       - usr/lib/*/libprotobuf.so.*
