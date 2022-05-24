@@ -28,13 +28,13 @@ apps:
     common-id: org.gnome.Contacts.desktop
     plugs:
       - browser-support
-      #- camera
+      - camera
       - home
       - network
       - accounts-service
       - contacts-service
-    #environment:
-    #  DISABLE_WAYLAND: 'true'
+    environment:
+      DISABLE_WAYLAND: 'true'
 
 parts:
   gnome-contacts:
@@ -44,7 +44,7 @@ parts:
     plugin: meson
     meson-parameters:
       - --prefix=/usr
-      - -Dcheese=false
+      - -Dcheese=true
       - -Ddocs=false
       - -Dmanpage=false
       - -Dprofile=default
@@ -71,12 +71,12 @@ parts:
     stage-packages:
       - libassuan0
       - libchamplain-0.12-0
-      #- libclutter-gst-3.0-0
+      - libclutter-gst-3.0-0
       - libgdata22
       - libgee-0.8-2
       - libgoa-1.0-0b
-      #- libcheese8
-      #- libcheese-gtk25
+      - libcheese8
+      - libcheese-gtk25
       - libgeocode-glib0
       - libgpm2
       - libgweather-3-16
@@ -103,8 +103,8 @@ parts:
 
     prime:
       - usr/lib/*/*assuan*.so.*
-      #- usr/lib/*/*cheese*.so.*
-      #- usr/lib/*/*clutter-gst*.so.*
+      - usr/lib/*/*cheese*.so.*
+      - usr/lib/*/*clutter-gst*.so.*
       - usr/lib/*/*gdata*.so.*
       - usr/lib/*/*handy*.so.*
       - usr/lib/*/*ical*.so.*
