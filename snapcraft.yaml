@@ -2,16 +2,15 @@ name: gnome-contacts
 adopt-info: gnome-contacts
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict
-base: core20
+base: core22
 
-passthrough:
-  layout:
-    /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/45/backends:
-      symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/45/backends
-    /usr/lib/evolution:
-      symlink: $SNAP/usr/lib/evolution
-    /usr/lib/evolution-data-server:
-      symlink: $SNAP/usr/lib/evolution-data-server
+layout:
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/26/backends:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/folks/26/backends
+  /usr/lib/evolution:
+    symlink: $SNAP/usr/lib/evolution
+  /usr/lib/evolution-data-server:
+    symlink: $SNAP/usr/lib/evolution-data-server
 
 slots:
   # for GtkApplication registration
@@ -23,7 +22,7 @@ slots:
 apps:
   gnome-contacts:
     command: usr/bin/gnome-contacts
-    extensions: [gnome-3-38]
+    extensions: [gnome]
     desktop: usr/share/applications/org.gnome.Contacts.desktop
     common-id: org.gnome.Contacts.desktop
     plugs:
@@ -40,11 +39,12 @@ parts:
   gnome-contacts:
     source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
-    source-branch: gnome-3-36
+    source-tag: '42.0'
     plugin: meson
     meson-parameters:
       - --prefix=/usr
-      - -Dcheese=false
+      - --buildtype=release
+      - -Dcamera=false # seems to be not wired... https://gitlab.gnome.org/GNOME/gnome-contacts/-/issues/236
       - -Ddocs=false
       - -Dmanpage=false
       - -Dprofile=default
@@ -53,14 +53,14 @@ parts:
     organize:
       snap/gnome-contacts/current/usr: usr
     override-pull: |
-      snapcraftctl pull
-      snapcraftctl set-version $(git describe --tags --abbrev=10)
+      craftctl default
+      craftctl set version=$(git describe --tags --abbrev=10)
     override-build: |
       sed -i.bak -e 's|=org.gnome.Contacts$|=${SNAP}/meta/gui/org.gnome.Contacts.svg|g' $SNAPCRAFT_PART_SRC/data/org.gnome.Contacts.desktop.in.in
-      snapcraftctl build
-      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/
-      cp $SNAPCRAFT_PART_SRC/data/icons/hicolor/scalable/apps/org.gnome.Contacts.svg $SNAPCRAFT_PART_INSTALL/meta/gui/
-      cp data/org.gnome.Contacts.desktop $SNAPCRAFT_PART_INSTALL/meta/gui/
+      craftctl default
+      mkdir -p $CRAFT_PART_INSTALL/meta/gui/
+      cp $CRAFT_PART_SRC/data/icons/hicolor/scalable/apps/org.gnome.Contacts.svg $CRAFT_PART_INSTALL/meta/gui/
+      cp data/org.gnome.Contacts.desktop $CRAFT_PART_INSTALL/meta/gui/
     build-packages:
       - libedataserverui1.2-dev
       - libfolks-eds-dev
@@ -68,43 +68,40 @@ parts:
       - libgoa-1.0-dev
       - libhandy-0.0-dev
       - libcheese-gtk-dev
+      - libportal-dev
     stage-packages:
       - libassuan0
       - libchamplain-0.12-0
-      #- libclutter-gst-3.0-0
       - libgdata22
       - libgee-0.8-2
       - libgoa-1.0-0b
-      #- libcheese8
-      #- libcheese-gtk25
       - libgeocode-glib0
       - libgpm2
       - libgweather-3-16
       - libhandy-0.0-0
       - libical3
       - gstreamer1.0-plugins-good
-      - libfolks25
-      - libfolks-eds25
+      - libfolks26
+      - libfolks-eds26
       - evolution-data-server
       - libecal-2.0-1
       - libedata-cal-2.0-1
-      - libedataserver-1.2-24
-      - libedataserverui-1.2-2
+      - libedataserver-1.2-26
+      - libedataserverui-1.2-3
       - libebook-1.2-20
-      - libcamel-1.2-62
+      - libcamel-1.2-63
       - libedata-book-1.2-26
-      - libphonenumber7
+      - libphonenumber8
       - libebackend-1.2-10
-      - libprotobuf17
-      - libboost-system1.67.0
-      - libboost-thread1.67.0
+      - libprotobuf23
+      - libboost-system1.74.0
+      - libboost-thread1.74.0
       - libstdc++6
       - liblz4-1
+      - libabsl20210324
 
     prime:
       - usr/lib/*/*assuan*.so.*
-      #- usr/lib/*/*cheese*.so.*
-      #- usr/lib/*/*clutter-gst*.so.*
       - usr/lib/*/*gdata*.so.*
       - usr/lib/*/*handy*.so.*
       - usr/lib/*/*ical*.so.*
@@ -121,6 +118,7 @@ parts:
       - usr/lib/*/libpl*.so
       - usr/lib/*/*curl*.so.*
       - usr/lib/*/*rtmp.so.*
+      - usr/lib/*/libabsl*.so.*
       - usr/lib/*/liblber-2.4.so.*
       - usr/lib/*/libldap_r-2.4.so.*
       - usr/lib/*/libsasl2.so.*
@@ -153,3 +151,13 @@ parts:
       - usr/lib/*/folks/*
       - usr/share/*
       - usr/bin/*
+
+  cleanup:
+    after: [ gnome-contacts ]
+    plugin: nil
+    build-snaps: [core22, gtk-common-themes, gnome-42-2204]
+    override-prime: |
+      set -eux
+      for snap in "core22" "gtk-common-themes" "gnome-42-2204"; do
+        cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$CRAFT_PRIME/{}" \;
+      done
