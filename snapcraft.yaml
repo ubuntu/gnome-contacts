@@ -43,6 +43,7 @@ parts:
     plugin: meson
     meson-parameters:
       - --prefix=/usr
+      - --buildtype=release
       - -Dcamera=false # seems to be not wired... https://gitlab.gnome.org/GNOME/gnome-contacts/-/issues/236
       - -Ddocs=false
       - -Dmanpage=false
