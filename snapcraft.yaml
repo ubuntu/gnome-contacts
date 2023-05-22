@@ -53,7 +53,6 @@ parts:
       - -Ddocs=false
       - -Dmanpage=false
       - -Dprofile=default
-      - -Dtelepathy=false
     parse-info: [usr/share/metainfo/org.gnome.Contacts.appdata.xml]
     organize:
       snap/gnome-contacts/current/usr: usr
