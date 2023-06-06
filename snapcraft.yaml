@@ -92,6 +92,7 @@ parts:
   geoclue:
     source: https://gitlab.freedesktop.org/geoclue/geoclue.git
     source-tag: '2.7.0'
+    source-depth: 1
     after: [ geocode ]
     plugin: meson
     meson-parameters:
