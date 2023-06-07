@@ -129,8 +129,6 @@ parts:
       - -DENABLE_GTK_DOC=OFF
       - -DENABLE_EXAMPLES=OFF
       - -DENABLE_OAUTH2_WEBKITGTK4=OFF
-    build-environment:
-      - PKG_CONFIG_PATH: $CRAFT_STAGE/usr/lib/pkgconfig:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}
     override-pull: |
       craftctl default
       sed -i "s|#include \"nss.h\"|#include \"nss/nss.h\"|g" src/camel/camel.c
@@ -171,8 +169,6 @@ parts:
       - -Dimport_tool=false
       - -Dtests=false
       - -Dprofiling=false
-    build-environment:
-      - PKG_CONFIG_PATH: $CRAFT_STAGE/usr/lib/pkgconfig:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}
     build-packages:
       - libreadline-dev
 
@@ -196,9 +192,6 @@ parts:
     override-pull: |
       craftctl default
       craftctl set version=$(git describe --tags --abbrev=10)
-    build-environment:
-      - PKG_CONFIG_PATH: $CRAFT_STAGE/usr/lib/pkgconfig:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}
-      - LD_LIBRARY_PATH: $CRAFT_STAGE/usr/lib:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
     override-build: |
       sed -i 's|=org.gnome.Contacts$|=${SNAP}/meta/gui/org.gnome.Contacts.svg|g' $CRAFT_PART_SRC/data/org.gnome.Contacts.desktop.in.in
       craftctl default
