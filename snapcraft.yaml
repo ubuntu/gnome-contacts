@@ -56,7 +56,7 @@ parts:
   libgweather:
     after: [ geocode ]
     source: https://gitlab.gnome.org/GNOME/libgweather.git
-    source-tag: '4.3.2'
+    source-tag: '4.4.0'
     source-depth: 1
     plugin: meson
     meson-parameters:
