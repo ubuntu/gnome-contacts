@@ -135,7 +135,7 @@ parts:
       sed -i "s|#include <nss.h>|#include <nss/nss.h>|g" src/libedataserverui/e-certificate-widget.c
     override-stage: |
       craftctl default
-      for PCFILE in "libebook-contacts-1.2.pc" "libedataserver-1.2.pc" "libedataserverui4-1.0.pc"; do
+      for PCFILE in "libebook-contacts-1.2.pc" "libedataserver-1.2.pc" "libedataserverui4-1.0.pc" "camel-1.2.pc" "evolution-data-server-1.2.pc" "libebackend-1.2.pc" "libecal-2.0.pc" "libebook-1.2.pc" "libedata-cal-2.0.pc" "libedata-book-1.2.pc"; do
         sed -i "s#prefix=/root/stage/usr#prefix=/root/stage#g" $CRAFT_STAGE/usr/lib/pkgconfig/$PCFILE
         sed -i "s#includedir=/usr/include#includedir=\${prefix}/usr/include#g" $CRAFT_STAGE/usr/lib/pkgconfig/$PCFILE
         sed -i "s#libdir=/usr/lib#libdir=\${prefix}/usr/lib#g" $CRAFT_STAGE/usr/lib/pkgconfig/$PCFILE
