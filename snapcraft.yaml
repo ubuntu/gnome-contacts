@@ -74,7 +74,7 @@ parts:
 
   libical:
     source: https://github.com/libical/libical.git
-    source-tag: 'v3.0.16'
+    source-tag: 'v3.0.17'
     source-depth: 1
     plugin: cmake
     cmake-parameters:
