@@ -175,7 +175,7 @@ parts:
   gnome-contacts:
     source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
-    source-tag: '45.0'
+    source-tag: '45.1'
     source-depth: 1
     after: [ libfolks ]
     plugin: meson
