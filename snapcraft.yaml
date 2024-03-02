@@ -107,7 +107,7 @@ parts:
   evolution-data-server:
     after: [ libical, geoclue, libgweather ]
     source: https://gitlab.gnome.org/GNOME/evolution-data-server.git
-    source-tag: '3.51.2'
+    source-tag: '3.51.3'
     source-depth: 1
     plugin: cmake
     cmake-parameters:
