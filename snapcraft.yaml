@@ -151,7 +151,7 @@ parts:
 
   libfolks:
     source: https://gitlab.gnome.org/GNOME/folks.git
-    source-tag: '0.15.7'
+    source-tag: '0.15.8'
     source-depth: 1
 # ext:updatesnap
 #   version-format:
@@ -175,7 +175,7 @@ parts:
   gnome-contacts:
     source: https://gitlab.gnome.org/GNOME/gnome-contacts.git
     source-type: git
-    source-tag: '45.1'
+    source-tag: '46.0'
     source-depth: 1
     after: [ libfolks ]
     plugin: meson
