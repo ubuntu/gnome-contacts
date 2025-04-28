@@ -186,7 +186,7 @@ parts:
       - -Ddocs=false
       - -Dmanpage=false
       - -Dprofile=default
-    parse-info: [usr/share/metainfo/org.gnome.Contacts.appdata.xml]
+    parse-info: [usr/share/metainfo/org.gnome.Contacts.metainfo.xml]
     organize:
       snap/gnome-contacts/current/usr: usr
     override-pull: |
