@@ -201,6 +201,8 @@ parts:
     build-packages:
       - libportal-dev
       - libqrencode-dev
+      # Drop when the Gnome SDK snap hits 0+git.81ba3cf (revision 109).
+      - libgstreamer1.0-dev
     stage-packages:
       - libqrencode4
 
