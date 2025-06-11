@@ -5,8 +5,8 @@ confinement: strict
 base: core24
 
 layout:
-  /usr/lib/$CRAFT_ARCH_TRIPLET/folks/26/backends:
-    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/folks/26/backends
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/folks/26/backends:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/folks/26/backends
   /usr/lib/evolution:
     symlink: $SNAP/usr/lib/evolution
   /usr/lib/evolution-data-server:
