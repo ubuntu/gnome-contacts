@@ -36,42 +36,6 @@ apps:
     #  DISABLE_WAYLAND: 'true'
 
 parts:
-  # required because we need a version with libsoup3
-  geocode:
-    source: https://gitlab.gnome.org/GNOME/geocode-glib.git
-    source-tag: '3.26.4'
-    source-depth: 1
-    plugin: meson
-    meson-parameters:
-      - --prefix=/usr
-      - -Doptimization=3
-      - -Denable-installed-tests=false
-      - -Denable-introspection=true
-      - -Denable-gtk-doc=false
-      - -Dsoup2=false
-    build-packages:
-      - libnghttp2-dev
-
-  # required because we need a version with libsoup3
-  libgweather:
-    after: [ geocode ]
-    source: https://gitlab.gnome.org/GNOME/libgweather.git
-    source-tag: '4.4.4'
-    source-depth: 1
-    plugin: meson
-    meson-parameters:
-      - --prefix=/usr
-      - -Doptimization=3
-      - -Dintrospection=true
-      - -Dgtk_doc=false
-      - -Dtests=false
-      - -Dsoup2=false
-    override-pull: |
-      craftctl default
-      sed -i 's#CRAFT_ENV_REPLACE#/usr/lib:/usr/lib/$CRAFT_ARCH_TRIPLET#' $CRAFT_PART_SRC/data/meson.build
-    build-packages:
-      - gir1.2-glib-2.0
-
   libical:
     source: https://github.com/libical/libical.git
     source-tag: 'v3.0.20'
@@ -93,7 +57,6 @@ parts:
     source: https://gitlab.freedesktop.org/geoclue/geoclue.git
     source-tag: '2.7.2'
     source-depth: 1
-    after: [ geocode ]
     plugin: meson
     meson-parameters:
       - --prefix=/usr
@@ -105,7 +68,7 @@ parts:
       - -Dgtk-doc=false
 
   evolution-data-server:
-    after: [ libical, geoclue, libgweather ]
+    after: [ libical, geoclue ]
     source: https://gitlab.gnome.org/GNOME/evolution-data-server.git
     source-tag: '3.56.2'
     source-depth: 1
