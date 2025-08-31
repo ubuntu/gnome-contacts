@@ -55,7 +55,7 @@ parts:
 
   geoclue:
     source: https://gitlab.freedesktop.org/geoclue/geoclue.git
-    source-tag: '2.7.2'
+    source-tag: '2.8.0'
     source-depth: 1
     plugin: meson
     meson-parameters:
