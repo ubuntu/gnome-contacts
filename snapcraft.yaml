@@ -114,7 +114,7 @@ parts:
 
   libfolks:
     source: https://gitlab.gnome.org/GNOME/folks.git
-    source-tag: '0.15.9'
+    source-tag: '0.15.12'
     source-depth: 1
 # ext:updatesnap
 #   version-format:
