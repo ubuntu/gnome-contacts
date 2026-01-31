@@ -70,7 +70,7 @@ parts:
   evolution-data-server:
     after: [ libical, geoclue ]
     source: https://gitlab.gnome.org/GNOME/evolution-data-server.git
-    source-tag: '3.59.1'
+    source-tag: '3.59.2'
     source-depth: 1
     plugin: cmake
     cmake-parameters:
