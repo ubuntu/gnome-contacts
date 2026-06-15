@@ -38,7 +38,7 @@ apps:
 parts:
   libical:
     source: https://github.com/libical/libical.git
-    source-tag: 'v4.0.2'
+    source-tag: 'v4.0.3'
     source-depth: 1
     plugin: cmake
     cmake-parameters:
